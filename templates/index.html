@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Threat Intel IP Lookup</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; padding: 40px; color: #333; }
+        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+        h2 { text-align: center; color: #2c3e50; }
+        form { text-align: center; margin-bottom: 20px; }
+        input[type="text"] { width: 65%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
+        input[type="submit"] { padding: 10px 20px; background-color: #2980b9; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        input[type="submit"]:hover { background-color: #3498db; }
+        .result { padding: 20px; background: #eef2f5; border-left: 4px solid #2980b9; border-radius: 4px; }
+        .error { padding: 20px; background: #fdf2f2; border-left: 4px solid #e74c3c; border-radius: 4px; color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>IP Threat Intelligence</h2>
+        <form method="POST">
+            <input type="text" name="ip_address" placeholder="Enter IP address (e.g., 8.8.8.8)" required>
+            <input type="submit" value="Analyze">
+        </form>
+        
+        {% if data %}
+            {% if data.status == 'success' %}
+                <div class="result">
+                    <p><strong>Target IP:</strong> {{ data.query }}</p>
+                    <p><strong>Country:</strong> {{ data.country }}</p>
+                    <p><strong>Region/City:</strong> {{ data.regionName }}, {{ data.city }}</p>
+                    <p><strong>ISP / Organization:</strong> {{ data.isp }}</p>
+                </div>
+            {% else %}
+                <div class="error">
+                    <p><strong>Lookup Failed:</strong> {{ data.message }}</p>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>
